@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+:root {
+  /* Warm & personal palette */
+  --background: #fbf6ee;      /* warm cream */
+  --surface: #ffffff;         /* card/section surfaces */
+  --foreground: #2b2621;      /* warm charcoal */
+  --muted: #6b6155;           /* secondary text */
+  --clay: #c1592c;            /* primary accent — terracotta */
+  --clay-dark: #a3491f;       /* hover state */
+  --sage: #7c9070;            /* secondary accent — health/safe cue */
+  --sage-light: #eef1e9;      /* soft sage surface */
+  --border: #e8ddcd;
+
+  /* Fonts — self-hosted via @fontsource, see layout.tsx imports */
+  --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Fraunces", ui-serif, Georgia, serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-clay: var(--clay);
+  --color-clay-dark: var(--clay-dark);
+  --color-sage: var(--sage);
+  --color-sage-light: var(--sage-light);
+  --color-border: var(--border);
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-heading);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
