@@ -1,32 +1,38 @@
-import Link from "next/link";
-import { siteConfig } from "@/lib/site-config";
+import Image from "next/image";
 import PhoneCTA from "./PhoneCTA";
 import MobileMenu from "./MobileMenu";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "Why Luna Doris" },
-  { href: "/contact", label: "Contact" },
+export const navLinks = [
+  { href: "#why-us", label: "Why Us" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#reviews", label: "Reviews" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export default function Header() {
   return (
-    <header className="relative border-b border-border bg-background/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="font-serif text-2xl font-medium tracking-tight text-foreground">
-          {siteConfig.businessName}
-        </Link>
+    <header className="sticky top-0 z-40 border-b border-ink-border bg-ink/95 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+        <a href="#top" className="flex items-center">
+          <Image
+            src="/images/logo-horizontal.png"
+            alt="Luna Doris"
+            width={2146}
+            height={343}
+            priority
+            className="h-8 w-auto sm:h-9"
+          />
+        </a>
 
         <nav className="hidden items-center gap-8 sm:flex">
-          {links.map((link) => (
-            <Link
+          {navLinks.map((link) => (
+            <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted transition-colors hover:text-foreground"
+              className="text-sm font-medium text-muted-on-dark transition-colors hover:text-white"
             >
               {link.label}
-            </Link>
+            </a>
           ))}
         </nav>
 

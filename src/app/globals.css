@@ -1,16 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  /* Warm & personal palette */
-  --background: #fbf6ee;      /* warm cream */
-  --surface: #ffffff;         /* card/section surfaces */
-  --foreground: #2b2621;      /* warm charcoal */
-  --muted: #6b6155;           /* secondary text */
-  --clay: #c1592c;            /* primary accent — terracotta */
-  --clay-dark: #a3491f;       /* hover state */
-  --sage: #7c9070;            /* secondary accent — health/safe cue */
-  --sage-light: #eef1e9;      /* soft sage surface */
-  --border: #e8ddcd;
+  /* Brand palette — derived from the Luna Doris logo (moon blue + deep navy-teal) */
+  --background: #f5f9fb;      /* soft, cool off-white for light sections */
+  --surface: #ffffff;         /* card surfaces on light sections */
+  --foreground: #14313f;      /* deep navy-teal text */
+  --muted: #5c7280;           /* secondary text on light backgrounds */
+
+  --ink: #0d232f;             /* near-black navy — hero / dark sections */
+  --ink-surface: #16323f;     /* card surface on dark sections */
+  --ink-border: #24485a;      /* subtle border on dark sections */
+  --muted-on-dark: #a3c1cd;   /* secondary text on dark backgrounds */
+
+  --sky: #3f9cc5;             /* primary accent — the logo's moon blue */
+  --sky-dark: #2d7ba3;        /* hover state */
+  --teal: #266182;            /* deep accent — the logo's broom/text blue */
+
+  --border: #dbe5ea;
 
   /* Fonts — self-hosted via @fontsource, see layout.tsx imports */
   --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
@@ -22,10 +28,13 @@
   --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
-  --color-clay: var(--clay);
-  --color-clay-dark: var(--clay-dark);
-  --color-sage: var(--sage);
-  --color-sage-light: var(--sage-light);
+  --color-ink: var(--ink);
+  --color-ink-surface: var(--ink-surface);
+  --color-ink-border: var(--ink-border);
+  --color-muted-on-dark: var(--muted-on-dark);
+  --color-sky: var(--sky);
+  --color-sky-dark: var(--sky-dark);
+  --color-teal: var(--teal);
   --color-border: var(--border);
   --font-sans: var(--font-body);
   --font-serif: var(--font-heading);

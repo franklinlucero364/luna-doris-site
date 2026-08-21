@@ -1,14 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "Why Luna Doris" },
-  { href: "/contact", label: "Contact" },
-];
+import { navLinks } from "./Header";
+import { siteConfig } from "@/lib/site-config";
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -20,7 +14,7 @@ export default function MobileMenu() {
         aria-expanded={open}
         aria-label="Toggle menu"
         onClick={() => setOpen((v) => !v)}
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground"
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-ink-border text-white"
       >
         <svg
           aria-hidden="true"
@@ -36,18 +30,25 @@ export default function MobileMenu() {
       </button>
 
       {open && (
-        <div className="absolute inset-x-0 top-full border-b border-border bg-surface px-6 py-4 shadow-sm">
+        <div className="absolute inset-x-0 top-full border-b border-ink-border bg-ink px-6 py-4 shadow-lg">
           <nav className="flex flex-col gap-3">
-            {links.map((link) => (
-              <Link
+            {navLinks.map((link) => (
+              <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="py-1 text-base font-medium text-foreground"
+                className="py-1 text-base font-medium text-white"
               >
                 {link.label}
-              </Link>
+              </a>
             ))}
+            <a
+              href={`tel:${siteConfig.phoneHref}`}
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex w-fit items-center rounded-full bg-sky px-5 py-2.5 text-sm font-medium text-white"
+            >
+              Call {siteConfig.phoneDisplay}
+            </a>
           </nav>
         </div>
       )}

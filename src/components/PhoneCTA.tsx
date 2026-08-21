@@ -4,15 +4,17 @@ export default function PhoneCTA({
   variant = "solid",
   className = "",
 }: {
-  variant?: "solid" | "outline";
+  variant?: "solid" | "outline" | "outline-dark";
   className?: string;
 }) {
   const base =
     "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium transition-colors";
-  const styles =
-    variant === "solid"
-      ? "bg-clay text-white hover:bg-clay-dark"
-      : "border border-clay text-clay hover:bg-clay hover:text-white";
+  const styles = {
+    solid: "bg-sky text-white hover:bg-sky-dark",
+    outline: "border border-sky text-sky hover:bg-sky hover:text-white",
+    "outline-dark":
+      "border border-ink-border text-white hover:bg-white hover:text-ink",
+  }[variant];
 
   return (
     <a href={`tel:${siteConfig.phoneHref}`} className={`${base} ${styles} ${className}`}>

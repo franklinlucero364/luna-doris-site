@@ -1,30 +1,57 @@
 # Luna Doris — website
 
 A Next.js site for Luna Doris, deployed on Vercel. This README is the
-handoff doc — read it top to bottom the first time you set this up.
+handoff doc — read the relevant section whenever you're doing something
+new with it.
 
-## What's here
+## What's here (v2 — one-page redesign)
 
-- **Pages:** Home (`/`), Services (`/services`), Why Luna Doris (`/about`),
-  Contact (`/contact`)
-- **One file for all business info:** `src/lib/site-config.ts` — phone
-  number, service area, tagline, services list, form endpoint. Edit this
-  file for almost any content change.
-- **Design:** warm/personal palette (terracotta + cream + sage), Fraunces
-  for headings, Inter for body — both self-hosted (no dependency on Google
-  Fonts at runtime), defined in `src/app/globals.css`.
-- Placeholder photo blocks (`PhotoPlaceholder` component) stand in until
-  real photos are ready — see "Swapping in real photos" below.
+A single page (`/`) with five sections, in order:
 
-## First-time setup: get this live on lunadoris.com
+1. **Hero** — headline, phone CTA, stat row (years of experience, etc.)
+2. **Why Choose Us** — four cards (Accountability, Experience, Exclusivity
+   & Tailored Care, Trust & Discretion)
+3. **Our Story** — the founder story section
+4. **Reviews** — a carousel of client testimonials + a "Leave a review" form
+5. **Contact** — phone number + quote-request form
 
-You said you already have GitHub and Vercel accounts, so this is three
-steps: push the code, import it into Vercel, point the domain at it.
+Everything reads from **one file, `src/lib/site-config.ts`** — phone
+number, service area, tagline, the "why choose us" cards, the founder
+story text, and the reviews list all live there. Edit that file for
+almost any content change; you shouldn't need to touch component code.
+
+**Design:** a navy/blue palette pulled directly from the Luna Doris logo
+(`#3f9cc5` sky blue, `#266182` deep teal), Fraunces for headings, Inter
+for body — both self-hosted (no dependency on Google Fonts at runtime).
+Colors are defined in `src/app/globals.css`; the real logo files live in
+`public/images/`.
+
+## Applying this update (if you already deployed v1)
+
+If you already pushed the first version and connected the domain, you
+don't need to redo any of that — DNS and the Vercel project stay exactly
+as they are. You just need to get these new files into your existing
+local folder and push again:
+
+1. Download and unzip this new version.
+2. Copy everything from the unzipped folder **on top of** your existing
+   `luna-doris-site` folder, replacing files with the same names. (Easiest
+   way: delete everything in your existing folder except the hidden
+   `.git` folder, then copy all the new files in.)
+3. From that folder:
+
+   ```bash
+   git add -A
+   git commit -m "Redesign as one-page site with brand colors"
+   git push
+   ```
+
+Vercel picks up the push automatically and redeploys — the live site
+updates within a minute or two, no dashboard steps needed.
+
+## First-time setup (if starting fresh)
 
 ### 1. Push this code to GitHub
-
-From this project folder (if you unzipped this from a download, there's
-no `.git` folder yet, so start with `git init`):
 
 ```bash
 git init
@@ -32,8 +59,8 @@ git add -A
 git commit -m "Initial Luna Doris site"
 ```
 
-Then create a **new, empty** repository on GitHub (no README/license —
-this project already has one), and push:
+Create a **new, empty** repository on GitHub (no README/license — this
+project already has one), then:
 
 ```bash
 git remote add origin https://github.com/<your-username>/luna-doris-site.git
@@ -44,60 +71,42 @@ git push -u origin main
 ### 2. Import the repo into Vercel
 
 1. In the Vercel dashboard, click **Add New → Project**.
-2. Select the `luna-doris-site` repo you just pushed.
-3. Vercel auto-detects Next.js — leave the build settings as-is and click
-   **Deploy**.
-4. In a minute or two you'll have a live URL like
-   `luna-doris-site.vercel.app`. Confirm it looks right before moving on.
+2. Select the `luna-doris-site` repo.
+3. Vercel auto-detects Next.js — leave build settings as-is, click **Deploy**.
 
-From here on, **every `git push` to `main` automatically redeploys the
-live site** — that's the whole workflow going forward.
+From here on, every `git push` to `main` automatically redeploys.
 
 ### 3. Point lunadoris.com at Vercel
 
-You don't need to move the domain away from Hostinger — it can stay
-registered there. You're only changing where its DNS records point.
+The domain can stay registered at Hostinger — only its DNS changes.
 
-In the Vercel project: **Settings → Domains → Add**, and enter
-`lunadoris.com` (Vercel will also suggest adding `www.lunadoris.com` —
-accept that, it's used to redirect `www` to the main domain).
+In the Vercel project: **Settings → Domains → Add**, enter `lunadoris.com`.
+Vercel will show a DNS record to add — typically an **A record** for `@`
+pointing at an IP it gives you. Add that in Hostinger's **hPanel → Domains
+→ lunadoris.com → DNS / Nameservers → DNS Zone Editor**.
 
-Vercel will show you two DNS records to add:
+If Hostinger already has a record for `@` (commonly an `ALIAS` record
+pointing at their own hosting), you'll need to delete it first — Hostinger
+won't let an `A` and `ALIAS` record coexist on the same name. Don't touch
+any `MX`, `TXT`, or `CNAME` records related to mail (`hostingermail-*`,
+`autodiscover`, `autoconfig`, `_dmarc`, `spf`) — those are unrelated to
+the website.
 
-- An **A record** for the root domain (`@`), pointing at an IP address
-  Vercel gives you (commonly `76.76.21.21`, but use whatever value your
-  dashboard actually shows — it can vary).
-- A **CNAME record** for `www`, pointing at a value Vercel generates for
-  your project specifically (looks like
-  `xxxxxxxx.vercel-dns-xxx.com`).
-
-Then in Hostinger: **hPanel → Domains → lunadoris.com → DNS / Nameservers
-→ DNS Zone Editor**, and add those two records exactly as shown, using the
-existing Hostinger nameservers (no nameserver change needed). Delete or
-edit any existing conflicting A/CNAME record for `@` or `www` first.
-
-DNS changes can take anywhere from a few minutes to a few hours to
-propagate. Vercel's Domains page will show a green "Valid Configuration"
-once it's live, and **HTTPS is issued automatically** — no separate SSL
-step, and no more of the "not secure" warning from the old Hostinger
-site.
-
-> Once `lunadoris.com` is confirmed working, you can turn off/cancel
-> whatever hosting or website-builder plan is active on the old Hostinger
-> site — just keep the domain registration itself.
+HTTPS is issued automatically once DNS resolves — no separate SSL step.
 
 ## Editing content
 
-Almost everything on the site reads from `src/lib/site-config.ts`:
+Everything lives in `src/lib/site-config.ts`:
 
-- `phoneDisplay` / `phoneHref` — the phone number shown and dialed
-  (currently a placeholder: `(555) 123-4567`)
-- `serviceArea` / `serviceAreaList` — replace `[Your City]` and the
-  neighborhood placeholders with the real area served
-- `services` — the four service cards on Home/Services
-- `trustPoints` — the four "why us" callouts
+- `phoneDisplay` / `phoneHref` — the phone number (currently a placeholder)
+- `serviceArea` — replace `[Your City]` with the real area served
+- `heroStats` — the three numbers in the hero stat row. **Keep these
+  truthful** — only put a real number here, never a made-up one.
+- `trustPoints` — the four "Why Choose Us" cards
+- `founderStory` — the "Our Story" section text
+- `testimonials` — see "Reviews" below
 
-Edit the file, then:
+Edit, then:
 
 ```bash
 git add -A
@@ -105,17 +114,14 @@ git commit -m "Update business info"
 git push
 ```
 
-Vercel rebuilds and the live site updates within a minute or two.
-
 ## Swapping in real photos
 
-Right now every photo spot is a warm gradient placeholder
-(`PhotoPlaceholder` component) with a caption describing what should go
-there. To replace one:
+Every photo spot is currently a placeholder gradient (`PhotoPlaceholder`
+component). To replace one:
 
-1. Add the image file to `public/images/` (e.g. `public/images/living-room.jpg`).
-2. In the relevant page (e.g. `src/app/page.tsx`), replace the
-   `<PhotoPlaceholder ... />` with:
+1. Add the image to `public/images/` (e.g. `public/images/living-room.jpg`).
+2. Find the `<PhotoPlaceholder ... />` using it (in `Hero.tsx` or
+   `FounderStory.tsx`) and replace it with:
 
    ```tsx
    import Image from "next/image";
@@ -129,24 +135,55 @@ there. To replace one:
    />
    ```
 
-## Contact form (optional — phone is the main CTA by design)
+## Contact & review forms
 
-The quote form on `/contact` is built and spam-protected (it has a hidden
-honeypot field that silently drops bot submissions), but it needs a free
-form-delivery service to actually send you the message — Vercel doesn't
-do this for a static form on its own.
+Both the quote-request form (Contact section) and the "Leave a review"
+form are spam-protected with a hidden honeypot field, but need a free
+form-delivery service to actually send you the submission — a static
+site can't send email on its own.
 
 To turn it on:
 
-1. Sign up free at [web3forms.com](https://web3forms.com) (or
-   [formspree.io](https://formspree.io) — either works, Web3Forms has a
-   more generous free tier) using the business email.
-2. They'll give you a submission endpoint URL / access key.
-3. Paste it into `formEndpoint` in `src/lib/site-config.ts`.
-4. Commit and push.
+1. Sign up free at [web3forms.com](https://web3forms.com) or
+   [formspree.io](https://formspree.io) using the business email.
+2. Paste the submission endpoint/access key into `formEndpoint` in
+   `src/lib/site-config.ts`.
+3. Commit and push.
 
-Until that's set, the form stays visible but shows a friendly note
-pointing people to the phone number instead of silently failing.
+**One real limitation to know about:** the review form lets someone
+attach a photo, but **neither Web3Forms' nor Formspree's free plan
+delivers file attachments** — that's a paid-tier feature on both
+(roughly $10–12/mo). Until you either upgrade or wire up a separate free
+image host (e.g. Cloudinary's free tier — a "phase 2" item, not built
+yet), reviewers can still attach a photo in the form, but it won't
+actually reach you; only their name and written review will. I didn't
+want to quietly ship something that looks like it works but doesn't —
+happy to wire up a free photo path if that matters before launch.
+
+## Reviews: how approval works (v1 — manual)
+
+`testimonials` in `site-config.ts` starts empty on purpose — no
+placeholder reviews were invented, since fabricated testimonials would
+mislead real visitors. This is intentionally a manual process for now:
+
+1. Someone submits the "Leave a review" form → it emails you (once
+   `formEndpoint` is set up, see above).
+2. You decide if it's good to publish.
+3. To publish one, add it to the `testimonials` array in
+   `site-config.ts`:
+
+   ```ts
+   export const testimonials = [
+     { name: "Maria G.", quote: "Full text of their review..." },
+   ];
+   ```
+
+4. Commit and push — it now appears in the carousel (long quotes are
+   automatically truncated for the card view).
+
+A self-serve approve/deny dashboard (so you don't need to ask someone to
+edit code for you) is a reasonable next step, but needs a small database
+behind it — flagged as a future iteration, not built yet.
 
 ## Local development
 
