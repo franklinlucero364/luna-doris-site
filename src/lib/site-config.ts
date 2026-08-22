@@ -95,23 +95,59 @@ export const serviceExperience = {
 };
 
 /**
- * Pricing — a starting rate + minimum, meant to read as premium and
- * intentionally filter for clients who value tailored service over the
- * cheapest option. Based on a real reference job: ~830 ft² (closet, two
- * rooms, kitchen, living room, a larger room, two bathrooms, a common
- * area, stairs, and windows) for $200 ≈ $0.24/ft² actually charged.
- * This rate is set roughly double that on purpose — see the website
- * plan doc for the full calculation.
- * 🔧 Franklin: adjust the rate/minimum anytime; nothing else on the
- * site depends on the specific numbers here.
+ * Pricing — tiered packages instead of a raw $/ft² number, on purpose:
+ * high-value clients respond better to picking a tier than doing their
+ * own square-footage math. The middle tier is deliberately the "anchor"
+ * most people pick (marked `featured`).
+ *
+ * These numbers still need to stay honest against real job economics —
+ * our one real reference job (~830 ft², a full multi-room home) came out
+ * to about $0.24/ft² actually charged ($200 total), and $0.50/ft² as a
+ * "starting" anchor (see the website plan doc for the full calculation).
+ * "Starting at" wording is what protects Doris here — the tier sets
+ * expectations, the phone call sets the real price based on the space.
+ * 🔧 Franklin: adjust tier prices/copy anytime; nothing else on the site
+ * depends on the specific numbers here.
  */
 export const pricing = {
   eyebrow: "Investment",
   heading: "Pricing built for quality, not speed",
-  rate: "$0.50",
-  rateUnit: "per sq. ft.",
-  minimum: "$150 minimum per visit",
   note: "Every home is different — call for an exact quote based on your space.",
+};
+
+export const pricingTiers = [
+  {
+    name: "The Signature Clean",
+    description: "Recurring maintenance cleaning to keep a home consistently spotless.",
+    price: "Starting at $150",
+    unit: "per visit",
+  },
+  {
+    name: "The White-Glove Elite",
+    description:
+      "A deeper clean — cabinetry interiors, fixtures, baseboards, every detail most services skip.",
+    price: "Starting at $300",
+    unit: "per visit",
+    featured: true,
+  },
+  {
+    name: "The Estate Concierge",
+    description:
+      "Full-service care for larger homes — laundry, organizing, and turn-down care alongside cleaning.",
+    price: "Custom",
+    unit: "quote",
+  },
+] as const;
+
+/**
+ * A quiet, low-key mention that Doris also cleans non-residential spaces
+ * (she already does a weekly spa client) — intentionally NOT a full
+ * "commercial cleaning" section with its own pricing, since we have no
+ * real job data to anchor commercial prices to yet. Just opens the door
+ * for someone to call and ask.
+ */
+export const otherSpaces = {
+  note: "Also cleaning spas, offices, and other commercial spaces — call for a custom quote.",
 };
 
 /**
