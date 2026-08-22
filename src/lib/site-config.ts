@@ -14,22 +14,24 @@
 
 export const siteConfig = {
   businessName: "Luna Doris",
-  tagline: "A cleaner home. A clearer mind.",
+  tagline: "A cleaner space. A clearer mind.",
+  // Shown just below the tagline in the hero.
+  heroSubtext:
+    "Meticulous, health-safe cleaning for a small number of clients who expect more — no rotating crews, no shortcuts, no toxic products. Offices and commercial spaces also available, under custom quote.",
   // Used for SEO meta description / social sharing (the on-page hero
   // headline is `tagline` above — this is the longer, search-facing copy).
   metaDescription:
-    "Meticulous, health-safe home cleaning for a small number of clients who expect more. Serving [Your City] by appointment only.",
+    "Meticulous, health-safe cleaning for homes, offices, and commercial spaces — serving Manhattan and Northern New Jersey by appointment only.",
 
-  // 🔧 Replace with the real business phone number (this is shown big,
-  // clickable, in the header, hero, and contact section).
-  phoneDisplay: "(555) 123-4567",
-  phoneHref: "+15551234567", // digits only, used for the tel: link
+  phoneDisplay: "(973) 337-0468",
+  phoneHref: "+19733370468", // digits only, used for the tel: link
 
-  // 🔧 Replace with a real inbox you check.
-  email: "hello@lunadoris.com",
+  email: "info@lunadoris.com",
 
-  // 🔧 Replace with the real neighborhoods / city / region served.
-  serviceArea: "Serving [Your City] — by appointment only",
+  // Kept short/simple for the hero. The full list of specific towns
+  // (better for local search) lives in `serviceTowns` below and shows
+  // in the footer.
+  serviceArea: "Serving Manhattan & Northern New Jersey — by appointment only",
 
   // Used in metadata. Update if/when the domain changes.
   domain: "lunadoris.com",
@@ -42,6 +44,26 @@ export const siteConfig = {
 
   hours: "Mon–Sat, 8am–6pm",
 } as const;
+
+/**
+ * Specific towns served — shown small in the footer (not the hero, which
+ * stays short). Listing real town names helps local search ("house
+ * cleaning Short Hills NJ") in a way "Northern New Jersey" alone can't.
+ * 🔧 Add/remove towns anytime.
+ */
+export const serviceTowns = [
+  "Manhattan",
+  "Edgewater",
+  "Teaneck",
+  "Short Hills",
+  "Millburn",
+  "Summit",
+  "Westfield",
+  "Livingston",
+  "Chatham",
+  "Madison",
+  "Alpine",
+] as const;
 
 /**
  * Hero stat row — keep these truthful. Only add a number here if it's

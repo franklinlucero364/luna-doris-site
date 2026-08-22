@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-// Self-hosted fonts (no runtime request to Google) — see package.json.
-import "@fontsource-variable/inter";
-import "@fontsource/fraunces/400.css";
-import "@fontsource/fraunces/500.css";
-import "@fontsource/fraunces/600.css";
-import "@fontsource/fraunces/400-italic.css";
+// Fonts are OS-native system fonts (Georgia / Helvetica-Arial) — see
+// globals.css. No font files to self-host, so no imports needed here.
 import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
 import Header from "@/components/Header";

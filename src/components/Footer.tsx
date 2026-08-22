@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { siteConfig } from "@/lib/site-config";
+import { serviceTowns, siteConfig } from "@/lib/site-config";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -27,7 +27,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-ink-border pt-6 text-xs text-muted-on-dark sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 border-t border-ink-border pt-6 text-xs text-muted-on-dark">
+          <span className="font-medium text-muted-on-dark/80">Also serving:</span>{" "}
+          {serviceTowns.join(" · ")}
+        </div>
+
+        <div className="mt-6 flex flex-col gap-2 text-xs text-muted-on-dark sm:flex-row sm:items-center sm:justify-between">
           <span>
             © {year} {siteConfig.businessName}. {siteConfig.serviceArea}.
           </span>

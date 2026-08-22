@@ -15,9 +15,7 @@ export default function Hero() {
               {siteConfig.tagline}
             </h1>
             <p className="mt-5 max-w-md text-lg text-muted-on-dark">
-              Meticulous, health-safe home cleaning for a small number of
-              clients who expect more — no rotating crews, no shortcuts, no
-              toxic products.
+              {siteConfig.heroSubtext}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <PhoneCTA />

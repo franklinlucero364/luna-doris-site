@@ -18,9 +18,11 @@
 
   --border: #dbe5ea;
 
-  /* Fonts — self-hosted via @fontsource, see layout.tsx imports */
-  --font-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Fraunces", ui-serif, Georgia, serif;
+  /* Fonts — OS-native system fonts on purpose (no downloads, no font-swap
+     flash, consistent rendering on every device/OS). Georgia for headings
+     (a serif built for screens), Helvetica/Arial for body text. */
+  --font-body: Helvetica, Arial, "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: Georgia, "Times New Roman", ui-serif, serif;
 }
 
 @theme inline {
