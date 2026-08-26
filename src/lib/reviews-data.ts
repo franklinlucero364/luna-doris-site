@@ -23,7 +23,18 @@ export async function getApprovedReviews(): Promise<PublicReview[]> {
     .eq("status", "approved")
     .order("created_at", { ascending: false });
 
-  if (error || !data) return [];
+  if (error) {
+    // This used to fail silently, which made "approved review isn't
+    // showing up" impossible to diagnose from the public site alone.
+    // Now the real Postgrest error lands in Vercel's Logs tab (Project →
+    // Logs, filter by "Runtime Logs"), and the SAME check is also
+    // surfaced directly on /admin (see the "Public site check" line on
+    // the dashboard) so this doesn't require digging through Vercel at
+    // all in the common case.
+    console.error("getApprovedReviews query failed:", error.message);
+    return [];
+  }
+  if (!data) return [];
 
   return (data as Pick<ReviewRow, "name" | "quote" | "photo_url">[]).map((r) => ({
     name: r.name,

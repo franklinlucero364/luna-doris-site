@@ -102,8 +102,22 @@ function Carousel({ reviews }: { reviews: PublicReview[] }) {
 
 type SubmitStatus = "idle" | "submitting" | "success" | "error" | "not_configured";
 
+// Safe, pre-written messages only — this form is public, so we never echo
+// the server's raw error text here (that's fine on /admin, which is
+// authenticated, but not here). Each code below maps to something a real
+// visitor (or Franklin, testing) can actually act on.
+const SUBMIT_ERROR_MESSAGES: Record<string, string> = {
+  missing_fields: "Please fill in your name and review before submitting.",
+  photo_too_large: "That photo is too large (over 4MB) — try a smaller one, or submit without it.",
+  invalid_photo_type: "That file doesn't look like an image — try a different one, or submit without it.",
+  upload_failed:
+    "We couldn't upload that photo — try again without one, or call us and mention it.",
+  insert_failed: "Something went wrong saving your review — please try again in a moment.",
+};
+
 function ReviewModal({ onClose }: { onClose: () => void }) {
   const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [errorDetail, setErrorDetail] = useState<string | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -119,13 +133,20 @@ function ReviewModal({ onClose }: { onClose: () => void }) {
     }
 
     setStatus("submitting");
+    setErrorDetail(null);
     try {
       const res = await fetch("/api/reviews", { method: "POST", body: data });
       if (res.status === 503) {
         setStatus("not_configured");
         return;
       }
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}) as { error?: string });
+        setErrorDetail(
+          (body.error && SUBMIT_ERROR_MESSAGES[body.error]) ?? null
+        );
+        throw new Error("Request failed");
+      }
       setStatus("success");
       form.reset();
       setPhotoPreview(null);
@@ -252,8 +273,8 @@ function ReviewModal({ onClose }: { onClose: () => void }) {
             )}
             {status === "error" && (
               <p className="text-sm text-muted">
-                Something went wrong sending that — please try again, or call{" "}
-                {siteConfig.phoneDisplay}.
+                {errorDetail ??
+                  `Something went wrong sending that — please try again, or call ${siteConfig.phoneDisplay}.`}
               </p>
             )}
           </form>

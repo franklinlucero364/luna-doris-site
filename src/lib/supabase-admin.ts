@@ -15,6 +15,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  * aren't set at build time either).
  */
 let cached: SupabaseClient | null = null;
+let cachedConstructionError: string | null = null;
 
 export function getSupabaseAdmin(): SupabaseClient | null {
   const url = process.env.SUPABASE_URL;
@@ -22,11 +23,37 @@ export function getSupabaseAdmin(): SupabaseClient | null {
   if (!url || !key) return null;
 
   if (!cached) {
-    cached = createClient(url, key, {
-      auth: { persistSession: false },
-    });
+    // createClient() throws synchronously on a malformed URL (e.g. a
+    // stray quote or space from copy-pasting into Vercel) — without this
+    // try/catch, that exception propagates straight out of whichever
+    // route handler called this, past any of ITS OWN try/catch blocks,
+    // and Next.js returns its generic HTML error page instead of JSON.
+    // Catching it here means callers always get a clean `null` back, and
+    // can ask getSupabaseAdminConstructionError() for what went wrong.
+    try {
+      cached = createClient(url, key, {
+        auth: { persistSession: false },
+      });
+      cachedConstructionError = null;
+    } catch (err) {
+      cachedConstructionError =
+        err instanceof Error ? err.message : "Failed to create Supabase client";
+      return null;
+    }
   }
   return cached;
+}
+
+/**
+ * If getSupabaseAdmin() just returned null NOT because the env vars are
+ * missing, but because creating the client itself failed (almost always
+ * a malformed SUPABASE_URL), this holds that error's message. Used by
+ * the authenticated /admin routes to show the real reason instead of a
+ * generic "not connected yet" — which would be misleading here, since
+ * something WAS configured, just incorrectly.
+ */
+export function getSupabaseAdminConstructionError(): string | null {
+  return cachedConstructionError;
 }
 
 /** Storage bucket that holds review photos. Create this in Supabase

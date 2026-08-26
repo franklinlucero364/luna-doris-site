@@ -16,6 +16,8 @@ type Review = {
 
 type LoadState = "loading" | "ready" | "not_configured" | "error";
 
+type ApiErrorBody = { error?: string; message?: string };
+
 function formatDate(iso: string) {
   try {
     return new Date(iso).toLocaleDateString(undefined, {
@@ -95,11 +97,17 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [state, setState] = useState<LoadState>("loading");
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [debugInfo, setDebugInfo] = useState<{
+    publicQueryCount: number | null;
+    publicQueryError: string | null;
+  } | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [signingOut, setSigningOut] = useState(false);
 
   const load = useCallback(async () => {
     setState("loading");
+    setErrorMessage(null);
     try {
       const res = await fetch("/api/admin/reviews", { cache: "no-store" });
       if (res.status === 503) {
@@ -111,11 +119,14 @@ export default function AdminDashboard() {
         return;
       }
       if (!res.ok) {
+        const body: ApiErrorBody = await res.json().catch(() => ({}));
+        setErrorMessage(body.message ?? null);
         setState("error");
         return;
       }
       const body = await res.json();
       setReviews(body.reviews ?? []);
+      setDebugInfo(body.debug ?? null);
       setState("ready");
     } catch {
       setState("error");
@@ -170,8 +181,13 @@ export default function AdminDashboard() {
 
   if (state === "error") {
     return (
-      <div className="text-center">
+      <div className="mx-auto max-w-md text-center">
         <p className="text-sm text-muted">Something went wrong loading reviews.</p>
+        {errorMessage && (
+          <p className="mt-2 rounded-lg bg-surface p-3 font-mono text-xs text-muted">
+            {errorMessage}
+          </p>
+        )}
         <button
           type="button"
           onClick={load}
@@ -257,6 +273,14 @@ export default function AdminDashboard() {
             ))}
           </div>
         </section>
+      )}
+
+      {debugInfo && (
+        <p className="rounded-lg bg-surface p-3 font-mono text-xs text-muted">
+          Public site check: {debugInfo.publicQueryError
+            ? `error — ${debugInfo.publicQueryError}`
+            : `${debugInfo.publicQueryCount ?? 0} approved row(s) found`}
+        </p>
       )}
     </div>
   );
