@@ -22,7 +22,19 @@ export default async function proxy(request: NextRequest) {
     pathname !== "/api/admin/login";
 
   if (!isAdminPage && !isAdminApi) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    if (pathname === "/") {
+      // Belt-and-suspenders on top of `export const dynamic =
+      // "force-dynamic"` in page.tsx: force every layer (browser, any
+      // CDN/edge cache) to treat the homepage as never-cacheable. This
+      // is here specifically because of a bug where a newly-approved
+      // review took a long time to appear on the live site — if that
+      // turns out to be a caching layer serving a stale copy rather
+      // than a fresh render each time, this header removes that
+      // possibility outright instead of just diagnosing it.
+      response.headers.set("Cache-Control", "no-store, must-revalidate");
+    }
+    return response;
   }
 
   const authenticated = await verifyAdminSession();
@@ -39,5 +51,5 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/", "/admin/:path*", "/api/admin/:path*"],
 };

@@ -33,6 +33,19 @@ export function getSupabaseAdmin(): SupabaseClient | null {
     try {
       cached = createClient(url, key, {
         auth: { persistSession: false },
+        global: {
+          // Force every request this client makes to bypass Next.js's
+          // fetch cache. Without this, Next can treat the Supabase
+          // REST calls made here as cacheable data — independent of
+          // page-level settings like `dynamic = "force-dynamic"` — and
+          // that cache only resets on the next deploy. Symptom seen in
+          // production: a newly-approved review wouldn't show up on
+          // the homepage until Franklin redeployed, at which point it
+          // instantly appeared (a fresh, empty fetch cache after every
+          // deploy) — this line removes that cache from the equation
+          // entirely so every read is always live.
+          fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
+        },
       });
       cachedConstructionError = null;
     } catch (err) {
