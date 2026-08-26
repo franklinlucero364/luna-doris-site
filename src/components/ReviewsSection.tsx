@@ -10,18 +10,5 @@ import ReviewsClient from "./ReviewsClient";
  */
 export default async function ReviewsSection() {
   const reviews = await getApprovedReviews();
-  return (
-    <>
-      {/* Temporary debug marker — remove once the "approved review takes
-          a long time to show up" investigation is closed. Visible only
-          via "View Page Source"; proves whether this render is actually
-          fresh (a changing timestamp/count on reload) or being served
-          from a cache somewhere (a frozen timestamp). */}
-      <div
-        hidden
-        data-reviews-debug={`rendered ${new Date().toISOString()} — ${reviews.length} approved`}
-      />
-      <ReviewsClient reviews={reviews} />
-    </>
-  );
+  return <ReviewsClient reviews={reviews} />;
 }

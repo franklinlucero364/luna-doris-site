@@ -12,6 +12,9 @@ function truncate(text: string, length: number) {
 }
 
 function TestimonialCard({ name, quote, photo }: PublicReview) {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = quote.length > QUOTE_PREVIEW_LENGTH;
+
   return (
     <div className="flex h-full flex-col rounded-2xl border border-border bg-surface p-8">
       <svg
@@ -22,7 +25,18 @@ function TestimonialCard({ name, quote, photo }: PublicReview) {
       >
         <path d="M9.352 4C4.456 7.456 2 11.088 2 15.264c0 3.36 1.936 5.632 4.928 5.632 2.464 0 4.4-1.76 4.4-4.224 0-2.288-1.584-3.872-3.696-3.872-.264 0-.44 0-.704.088C7.28 10.256 8.976 8.4 12.32 6.4L9.352 4zm14.784 0c-4.896 3.456-7.352 7.088-7.352 11.264 0 3.36 1.936 5.632 4.928 5.632 2.464 0 4.4-1.76 4.4-4.224 0-2.288-1.584-3.872-3.696-3.872-.264 0-.44 0-.704.088.088-2.632 1.784-4.488 5.128-6.488L24.136 4z" />
       </svg>
-      <p className="mt-4 flex-1 text-foreground">{truncate(quote, QUOTE_PREVIEW_LENGTH)}</p>
+      <p className="mt-4 flex-1 whitespace-pre-wrap text-foreground">
+        {expanded ? quote : truncate(quote, QUOTE_PREVIEW_LENGTH)}
+      </p>
+      {isLong && (
+        <button
+          type="button"
+          onClick={() => setExpanded((e) => !e)}
+          className="mt-2 self-start text-sm font-medium text-sky-dark underline"
+        >
+          {expanded ? "Show less" : "Read more"}
+        </button>
+      )}
       <div className="mt-6 flex items-center gap-3">
         {photo ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -64,7 +78,10 @@ function Carousel({ reviews }: { reviews: PublicReview[] }) {
   return (
     <div>
       <div className="mx-auto max-w-xl">
-        <TestimonialCard {...current} />
+        {/* key forces a remount on navigation so "Read more" resets
+            back to collapsed for each new review, instead of staying
+            expanded/collapsed from whichever review was showing before. */}
+        <TestimonialCard key={current.name + index} {...current} />
       </div>
       {count > 1 && (
         <div className="mt-6 flex items-center justify-center gap-4">
