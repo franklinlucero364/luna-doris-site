@@ -14,7 +14,9 @@ type Status = "idle" | "submitting" | "success" | "error";
  * - Actually delivering the message requires a free form-handling
  *   endpoint (Web3Forms, Formspree, etc). Until siteConfig.formEndpoint
  *   is set, the form stays visually present but explains that phone is
- *   the fastest way to reach us — see README.md → "Contact & review forms".
+ *   the fastest way to reach us — see README.md → "Contact form (quote
+ *   requests)". (Reviews are a separate system now, backed by Supabase —
+ *   see README.md → "Reviews: admin setup".)
  */
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");

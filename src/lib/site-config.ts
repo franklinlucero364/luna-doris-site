@@ -173,14 +173,8 @@ export const otherSpaces = {
 };
 
 /**
- * Reviews — starts empty on purpose. No fabricated testimonials belong
- * here; only add an entry once a real client has actually submitted and
- * approved a review (see README.md → "Reviews: how approval works").
- *
- * Shape: { name: string; quote: string; photo?: string (path in /public) }
+ * Reviews are NOT configured here anymore. Approved reviews are stored
+ * in Supabase and fetched live by `ReviewsSection` — see
+ * `src/lib/reviews-data.ts` and README.md → "Reviews: admin setup" for
+ * how to connect it and how approval works.
  */
-export const testimonials: Array<{
-  name: string;
-  quote: string;
-  photo?: string;
-}> = [];
