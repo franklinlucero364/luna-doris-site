@@ -12,15 +12,15 @@ type Status = "idle" | "submitting" | "success" | "error";
  *   fill it in automatically — if it's filled, we silently drop the
  *   submission instead of sending it.
  * - Actually delivering the message requires a free form-handling
- *   endpoint (Web3Forms, Formspree, etc). Until siteConfig.formEndpoint
- *   is set, the form stays visually present but explains that phone is
+ *   account (Web3Forms by default). Until siteConfig.formAccessKey is
+ *   set, the form stays visually present but explains that phone is
  *   the fastest way to reach us — see README.md → "Contact form (quote
  *   requests)". (Reviews are a separate system now, backed by Supabase —
  *   see README.md → "Reviews: admin setup".)
  */
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const configured = siteConfig.formEndpoint.length > 0;
+  const configured = siteConfig.formAccessKey.length > 0;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -39,6 +39,8 @@ export default function ContactForm() {
     }
 
     data.set("form_type", "quote_request");
+    data.set("access_key", siteConfig.formAccessKey);
+    data.set("subject", "New quote request from lunadoris.com");
     setStatus("submitting");
     try {
       const res = await fetch(siteConfig.formEndpoint, {

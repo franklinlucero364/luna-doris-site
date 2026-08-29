@@ -155,16 +155,25 @@ a hidden honeypot field, but needs a free form-delivery service to
 actually send you the submission — a static site can't send email on its
 own.
 
-To turn it on:
+To turn it on (using [web3forms.com](https://web3forms.com) — free, no
+account or password, just an email address):
 
-1. Sign up free at [web3forms.com](https://web3forms.com) or
-   [formspree.io](https://formspree.io) using the business email.
-2. Paste the submission endpoint/access key into `formEndpoint` in
-   `src/lib/site-config.ts`.
-3. Commit and push.
+1. Go to web3forms.com and enter the business email (`info@lunadoris.com`)
+   where you want quote requests delivered. Click "Create Access Key."
+2. Web3Forms emails you a key that looks like a long string of letters
+   and numbers (e.g. `a1b2c3d4-...`). Copy it.
+3. Paste it into `formAccessKey` in `src/lib/site-config.ts` (replacing
+   the empty `""`).
+4. Commit and push.
 
-Until this is set up, the form stays visible but tells visitors to call
-instead — nothing breaks, it just doesn't deliver yet.
+Every quote request will then arrive as an email to that inbox. Until
+`formAccessKey` is filled in, the form stays visible but tells visitors
+to call instead — nothing breaks, it just doesn't deliver yet.
+
+Prefer [formspree.io](https://formspree.io) instead? Its form endpoint
+already identifies your form on its own, so leave `formAccessKey` blank
+and put your Formspree endpoint URL in `formEndpoint` instead (it
+defaults to Web3Forms's URL).
 
 (Reviews used to share this same form service — they don't anymore. See
 below.)

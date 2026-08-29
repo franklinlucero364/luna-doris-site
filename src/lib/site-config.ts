@@ -37,10 +37,15 @@ export const siteConfig = {
   domain: "lunadoris.com",
   siteUrl: "https://lunadoris.com",
 
-  // 🔧 Optional: fill in once you set up a free form-handling account
-  // (Web3Forms/Formspree — see README.md → "Contact & review forms").
-  // Used by BOTH the contact form and the "leave a review" form.
-  formEndpoint: "", // e.g. "https://api.web3forms.com/submit"
+  // 🔧 Fill these in to connect the "Request a quote" form — see
+  // README.md → "Contact form (quote requests)". (Reviews are separate
+  // now, backed by Supabase — see README.md → "Reviews: admin setup".)
+  formEndpoint: "https://api.web3forms.com/submit",
+  // Get this free at web3forms.com (enter your business email, they
+  // email you the key back instantly — no account/password needed).
+  // The form stays visible but tells visitors to call instead until
+  // this is filled in.
+  formAccessKey: "fa0746be-6dd5-4e83-a1b7-6dd59aae16d2",
 
   hours: "Mon–Sat, 8am–6pm",
 } as const;
