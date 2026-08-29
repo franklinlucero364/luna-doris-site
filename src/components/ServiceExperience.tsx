@@ -1,13 +1,16 @@
-import PhotoPlaceholder from "./PhotoPlaceholder";
+import Image from "next/image";
 import { serviceExperience } from "@/lib/site-config";
 
 export default function ServiceExperience() {
   return (
     <section className="bg-background">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 sm:grid-cols-2 sm:py-28">
-        <PhotoPlaceholder
-          label="Photo coming soon — a freshly cleaned room"
-          className="aspect-square w-full"
+        <Image
+          src="/images/room-showcase.jpg"
+          alt="A collage of real spaces Doris has cleaned: a living room, kitchen, bathroom glass, and built-in shelving"
+          width={1000}
+          height={1000}
+          className="aspect-square w-full rounded-3xl object-contain"
         />
         <div>
           <p className="text-sm font-medium tracking-wide text-sky-dark">
