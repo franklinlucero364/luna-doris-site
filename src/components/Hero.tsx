@@ -1,5 +1,5 @@
+import Image from "next/image";
 import PhoneCTA from "./PhoneCTA";
-import PhotoPlaceholder from "./PhotoPlaceholder";
 import { heroStats, siteConfig } from "@/lib/site-config";
 
 export default function Hero() {
@@ -27,10 +27,13 @@ export default function Hero() {
               </a>
             </div>
           </div>
-          <PhotoPlaceholder
-            tone="dark"
-            label="Photo coming soon — a bright, freshly cleaned living room"
-            className="aspect-[4/3] w-full"
+          <Image
+            src="/images/living-room-clean.jpg"
+            alt="A gloved hand wiping down a marble countertop in a bright, freshly cleaned living room"
+            width={800}
+            height={600}
+            priority
+            className="aspect-[4/3] w-full rounded-3xl object-cover"
           />
         </div>
       </div>
