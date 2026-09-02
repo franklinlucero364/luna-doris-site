@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { serviceTowns, siteConfig } from "@/lib/site-config";
+import SocialLinks from "./SocialLinks";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -16,7 +17,7 @@ export default function Footer() {
             className="h-8 w-auto opacity-90"
           />
 
-          <div className="flex flex-col gap-1 text-sm text-muted-on-dark sm:items-end">
+          <div className="flex flex-col gap-2 text-sm text-muted-on-dark sm:items-end">
             <a href={`tel:${siteConfig.phoneHref}`} className="hover:text-white">
               {siteConfig.phoneDisplay}
             </a>
@@ -24,6 +25,7 @@ export default function Footer() {
               {siteConfig.email}
             </a>
             <span>{siteConfig.hours}</span>
+            <SocialLinks className="mt-1" />
           </div>
         </div>
 

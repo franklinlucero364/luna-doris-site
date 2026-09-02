@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { navLinks } from "./Header";
 import { siteConfig } from "@/lib/site-config";
+import SocialLinks from "./SocialLinks";
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -49,6 +50,7 @@ export default function MobileMenu() {
             >
               Call {siteConfig.phoneDisplay}
             </a>
+            <SocialLinks className="mt-3" />
           </nav>
         </div>
       )}

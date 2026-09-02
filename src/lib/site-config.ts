@@ -28,6 +28,11 @@ export const siteConfig = {
 
   email: "info@lunadoris.com",
 
+  // Social links — shown as icon links in the footer. Leave a value as
+  // an empty string ("") to hide that icon entirely.
+  linkedinUrl: "https://www.linkedin.com/in/doris-luna-310a0a327",
+  instagramUrl: "https://www.instagram.com/lunadoriscleaning",
+
   // Kept short/simple for the hero. The full list of specific towns
   // (better for local search) lives in `serviceTowns` below and shows
   // in the footer.
