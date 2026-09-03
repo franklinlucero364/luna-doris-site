@@ -28,6 +28,11 @@ export const siteConfig = {
 
   email: "info@lunadoris.com",
 
+  // Social links — shown as icon links in the footer. Leave a value as
+  // an empty string ("") to hide that icon entirely.
+  linkedinUrl: "https://www.linkedin.com/in/doris-luna-310a0a327",
+  instagramUrl: "https://www.instagram.com/lunadoriscleaning",
+
   // Kept short/simple for the hero. The full list of specific towns
   // (better for local search) lives in `serviceTowns` below and shows
   // in the footer.
@@ -45,14 +50,9 @@ export const siteConfig = {
   // email you the key back instantly — no account/password needed).
   // The form stays visible but tells visitors to call instead until
   // this is filled in.
-  formAccessKey: "",
+  formAccessKey: "fa0746be-6dd5-4e83-a1b7-6dd59aae16d2",
 
   hours: "Mon–Sat, 8am–6pm",
-
-  // Shown as small icons in the footer. Leave a value as "" to hide
-  // that icon entirely (e.g. if a profile is ever taken down).
-  linkedinUrl: "https://www.linkedin.com/in/doris-luna-310a0a327",
-  instagramUrl: "https://www.instagram.com/lunadoriscleaning",
 } as const;
 
 /**
